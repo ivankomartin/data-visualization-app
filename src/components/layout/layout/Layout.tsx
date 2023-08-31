@@ -1,7 +1,7 @@
 import { FC, ReactNode } from "react";
 import Header from "../header/Header";
 import { Layout as LayoutAntd, Space } from 'antd';
-import Main from "../main/Main"
+import {Main} from "../main/Main"
 
 interface LayoutProps {
     children: ReactNode;
