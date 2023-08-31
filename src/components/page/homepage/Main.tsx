@@ -7,8 +7,10 @@ const { Title } = Typography;
   
 import dynamic from "next/dynamic";
 import { Layout } from '@/components/layout/layout/Layout';
+import { ChartCard } from '@/components/card/ChartCard';
+import { IChartData } from '@/interface/IChartData';
 const AreaChart = dynamic((): any => import('@/components/chart/AreaChart'), { ssr: false })
-const ColumnChart = dynamic((): any => import('@/components/chart/ColumnChart'), { ssr: false }) 
+const PieChart = dynamic((): any => import('@/components/chart/PieChart'), { ssr: false }) 
 
 const contentContainer: React.CSSProperties = {
     padding: '0 15px',
@@ -21,7 +23,11 @@ const pageTitle: React.CSSProperties = {
     margin: '0 30px 0 0',
 }
 
-export const Main: React.FC = () => {
+interface IMainProps {
+    data: IChartData[]; 
+}
+
+export const Main: React.FC<IMainProps> = ({ data }) => {
     return (
         <Layout>
             <Content style={contentContainer}>
@@ -36,10 +42,14 @@ export const Main: React.FC = () => {
                     </div>
                     <Row gutter={[15, 15]}>
                         <Col xs={24} sm={12}>
-                             <AreaChart /> 
+                            <ChartCard title='Confirmed Rate Over Time'>
+                                     <AreaChart data={data} />
+                                </ChartCard>
                         </Col>
                         <Col xs={24} sm={12}>
-                           <ColumnChart />
+                            <ChartCard title='Death Rate by Month for the Year 2022 - Jan / May'>
+                                <PieChart data={data} />
+                            </ChartCard>
                         </Col>
                     </Row>
                 </>

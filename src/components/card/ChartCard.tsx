@@ -14,6 +14,9 @@ const styles = {
         fontSize: '20px',
         fontWeight: 'bold',
         margin: 0
+    },
+    cardChart: {
+        padding: '40px',
     }
 } as { [key: string]: React.CSSProperties };
 
@@ -27,7 +30,9 @@ export const ChartCard: React.FC<ICardProps> = (props) => {
     return (
         <div style={styles.card}>
             <Title style={styles.title}>{title}</Title>
-            {children}
+            <div style={styles.cardChart}>
+                {children}
+            </div>
         </div>
     );
 };

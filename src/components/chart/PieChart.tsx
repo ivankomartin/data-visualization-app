@@ -1,0 +1,78 @@
+import React, { useEffect, useRef, memo } from 'react';
+import { Pie } from '@antv/g2plot';
+import { IChartData } from '@/interface/IChartData';
+
+interface IPieChartProps {
+    data: IChartData[];
+}
+
+interface IAggregatedData {
+    [key: number]: number;
+}
+
+interface IPieData {
+    month: string;
+    deathRate: number;
+}
+
+const PieChart: React.FC<IPieChartProps> = ({ data }) => {
+    const containerRef = useRef<HTMLDivElement>(null);
+
+    const filteredData = data.filter((item) => {
+        const year = new Date(item.date).getFullYear();
+        return year === 2022;
+    });
+
+    const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+    const aggregatedData: IAggregatedData = {};
+    filteredData.forEach((item) => {
+        const month = new Date(item.date).getMonth();
+        if (!aggregatedData[month]) {
+            aggregatedData[month] = 0;
+        }
+        aggregatedData[month] += item.deathRate;
+    });
+
+    const pieData: IPieData[] = Object.keys(aggregatedData).map((month) => ({
+        month: monthNames[parseInt(month)],
+        deathRate: Math.round(aggregatedData[parseInt(month)]),  
+    }));
+
+    useEffect(() => {
+        if (containerRef.current) {
+            const columnPlot = new Pie(containerRef.current, {
+                appendPadding: 10,
+                data: pieData,
+                angleField: 'deathRate',
+                colorField: 'month',
+                radius: 0.9,
+                label: {
+                    type: 'inner',
+                    offset: '-30%',
+                    content: ({ percent }) => `${(percent * 100).toFixed(0)}%`,
+                    style: {
+                        fontSize: 14,
+                        textAlign: 'center',
+                    },
+                },
+                tooltip: {
+                    formatter: (datum) => {
+                        return { name: datum.month, value: datum.deathRate.toFixed(2) };
+                    },
+                },
+                interactions: [{ type: 'element-active' }],
+            });
+
+            columnPlot.render();
+
+            return () => {
+                columnPlot.destroy();
+            };
+        }
+    }, [pieData]);
+
+    return <div ref={containerRef} style={{ width: '100%', height: '400px' }}></div>;
+};
+
+export default memo(PieChart);
