@@ -33,7 +33,6 @@ export const getStaticProps: GetStaticProps = async () => {
   };
 };
 
-
 interface HomeProps {
   dataPieChart: IDataPieChart[];
   dataAreaChart: IdataAreaChart[];

@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React, { FC } from 'react';
 import { Col, Layout as antdLayout, Row, Typography } from 'antd';
 import { ActionButtons } from '@/components/layout/common/button/ActionButtons';
 const { Content } = antdLayout;
@@ -65,7 +65,7 @@ export const Main: React.FC<IMainProps> = ({ dataPieChart,
                         <Col xs={24} sm={12}>
                             <ChartCard title='Confirmed Rate Over Time'>
                                 <AreaChart data={dataAreaChart} width={'100%'} height={'300px'} />
-                                </ChartCard>
+                            </ChartCard>
                         </Col>
                         <Col xs={24} sm={12}>
                             <ChartCard title='Death Rate by Month for the Year 2022'>
@@ -75,6 +75,6 @@ export const Main: React.FC<IMainProps> = ({ dataPieChart,
                     </Row>
                 </>
             </Content >
-        </Layout> 
-    );  
+        </Layout>
+    );
 }; 

@@ -15,7 +15,7 @@ export default function App ({ Component, pageProps }: AppProps) {
         <meta property="og:image" content="" />
         <meta property="og:url" content="" />
         <meta name="author" content="Martin Ivanko" />
-      
+
       </Head>
       <Component {...pageProps} />
     </>

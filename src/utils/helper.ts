@@ -1,5 +1,4 @@
 import axios, { AxiosResponse } from 'axios';
-
 interface Structure {
   [key: string]: string;
 }
@@ -13,9 +12,9 @@ const fetchChartData = async (
     const apiParams = `filters=${filters.join(";")}&structure=${JSON.stringify(structure)}`;
     const encodedParams = encodeURI(apiParams);
     const url = `${endpoint}?${encodedParams}`;
-    
+
     const response = await axios.get(url);
-    
+
     if (response.status === 200) {
       return response.data;
     } else {
