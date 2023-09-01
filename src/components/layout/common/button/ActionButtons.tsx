@@ -21,7 +21,6 @@ const styles = {
     spaceCustomStyle: {
         display: 'flex',
         justifyContent: 'flex-end',
-        gap: '40px',
         flexWrap: 'wrap'
     }
 } as { [key: string]: React.CSSProperties };
@@ -49,7 +48,7 @@ export const ActionButtons: React.FC = () => {
     ];
 
     return (
-        <Space style={styles.spaceCustomStyle} size={[30, 0]}>
+        <Space style={styles.spaceCustomStyle} size={[30, 15]}>
             {buttons.map((button, index) => (
                 <Button key={index} {...button} />
             ))}
