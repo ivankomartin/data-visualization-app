@@ -1,5 +1,5 @@
-import React from 'react';
-import { Col, Layout as antdLayout, Row, Typography } from 'antd';
+import React, {FC} from 'react';
+import { Col, Layout as antdLayout, Row, Typography, Skeleton } from 'antd';
 import { ActionButtons } from '@/components/layout/common/button/ActionButtons';
 const { Content } = antdLayout;
 const { Title } = Typography;
@@ -9,8 +9,21 @@ import dynamic from "next/dynamic";
 import { Layout } from '@/components/layout/layout/Layout';
 import { ChartCard } from '@/components/card/ChartCard';
 import { IChartData } from '@/interface/IChartData';
-const AreaChart = dynamic((): any => import('@/components/chart/AreaChart'), { ssr: false })
-const PieChart = dynamic((): any => import('@/components/chart/PieChart'), { ssr: false }) 
+import ChartSkeleton from '@/components/common/skeleton/ChartSkeleton';
+
+
+interface IMainProps {
+    data: IChartData[];
+}
+const AreaChart: FC<IMainProps> = dynamic(() => import('@/components/chart/AreaChart'), {
+    ssr: false,
+    loading: () => <ChartSkeleton />,
+}) as FC<IMainProps>;
+
+const PieChart: FC<IMainProps> = dynamic(() => import('@/components/chart/PieChart'), {
+    ssr: false,
+    loading: () => <ChartSkeleton />,
+}) as FC<IMainProps>;
 
 const contentContainer: React.CSSProperties = {
     padding: '0 15px',
@@ -23,9 +36,6 @@ const pageTitle: React.CSSProperties = {
     margin: '0 30px 0 0',
 }
 
-interface IMainProps {
-    data: IChartData[]; 
-}
 
 export const Main: React.FC<IMainProps> = ({ data }) => {
     return (
