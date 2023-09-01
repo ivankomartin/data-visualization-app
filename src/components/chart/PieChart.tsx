@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, memo } from 'react';
+import React, { useEffect, useRef, memo, useMemo } from 'react';
 import { Pie } from '@antv/g2plot';
 import { IChartData } from '@/interface/IChartData';
 
@@ -25,19 +25,21 @@ const PieChart: React.FC<IPieChartProps> = ({ data }) => {
 
     const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
-    const aggregatedData: IAggregatedData = {};
-    filteredData.forEach((item) => {
-        const month = new Date(item.date).getMonth();
-        if (!aggregatedData[month]) {
-            aggregatedData[month] = 0;
-        }
-        aggregatedData[month] += item.deathRate;
-    });
+    const pieData = useMemo(() => {
+        const aggregatedData: IAggregatedData = {};
+        filteredData.forEach((item) => {
+            const month = new Date(item.date).getMonth();
+            if (!aggregatedData[month]) {
+                aggregatedData[month] = 0;
+            }
+            aggregatedData[month] += item.deathRate;
+        });
 
-    const pieData: IPieData[] = Object.keys(aggregatedData).map((month) => ({
-        month: monthNames[parseInt(month)],
-        deathRate: Math.round(aggregatedData[parseInt(month)]),  
-    }));
+        return Object.keys(aggregatedData).map((month) => ({
+            month: monthNames[parseInt(month)],
+            deathRate: Math.round(aggregatedData[parseInt(month)]),
+        }));
+    }, [filteredData, monthNames]);
 
     useEffect(() => {
         if (containerRef.current) {
