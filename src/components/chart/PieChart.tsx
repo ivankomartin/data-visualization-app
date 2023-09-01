@@ -2,17 +2,19 @@ import React, { useEffect, useRef, memo, useMemo } from 'react';
 import { Pie } from '@antv/g2plot';
 import { IDataPieChart } from '@/interface/IChartData';
 
-interface IPieChartProps {
-    data: IDataPieChart[];
-}
-
 interface IAggregatedData {
     [key: number]: number;
 }
 
+interface IPieChartProps {
+    data: IDataPieChart[];
+    width?: number | string;
+    height?: number | string;
+}
+
 const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
-const PieChart: React.FC<IPieChartProps> = ({ data }) => {
+const PieChart: React.FC<IPieChartProps> = ({ data, width='100%', height='400px' }) => {
     const containerRef = useRef<HTMLDivElement>(null);
 
     const filteredData = data.filter((item) => {
@@ -69,7 +71,7 @@ const PieChart: React.FC<IPieChartProps> = ({ data }) => {
         }
     }, [pieData]);
 
-    return <div ref={containerRef} style={{ width: '100%', height: '400px' }}></div>;
+    return <div ref={containerRef} style={{ width, height }}></div>;
 };
 
 export default memo(PieChart);

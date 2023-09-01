@@ -1,13 +1,14 @@
 import React from 'react';
-import { Typography } from 'antd';
+import { Avatar, Space, Typography, Button } from 'antd';
+import { UserOutlined, MessageOutlined } from '@ant-design/icons';
+
 const { Title } = Typography;
 
 const styles = {
     card: {
         border: '1px solid #F0EFEF',
         borderRadius: '7px',
-        padding: '20px 15px 7px',
-        maxHeight: '500px',
+        padding: '20px 15px 15px',
         width: '100%',
     },
     title: {
@@ -17,6 +18,10 @@ const styles = {
     },
     cardChart: {
         padding: '40px',
+    },
+    iconSize: {
+        width: '20px',
+        height: '20px'
     }
 } as { [key: string]: React.CSSProperties };
 
@@ -32,6 +37,10 @@ export const ChartCard: React.FC<ICardProps> = (props) => {
             <Title style={styles.title}>{title}</Title>
             <div style={styles.cardChart}>
                 {children}
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <Avatar size={20} icon={<UserOutlined />} />
+                <Button type="text" icon={<MessageOutlined />} style={styles.iconSize}  />
             </div>
         </div>
     );

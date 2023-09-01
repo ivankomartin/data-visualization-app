@@ -4,8 +4,10 @@ import { IdataAreaChart } from '@/interface/IChartData';
 
 interface IAreaChartProps {
     data: IdataAreaChart[];
+    width?: number | string;
+    height?: number | string;
 }
-const AreaChart: React.FC<IAreaChartProps> = ({data}) => {
+const AreaChart: React.FC<IAreaChartProps> = ({ data, width ='100%', height ='400px' }) => {
     const containerRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -26,7 +28,7 @@ const AreaChart: React.FC<IAreaChartProps> = ({data}) => {
         }
     }, [data]);
 
-    return <div ref={containerRef} style={{ width: '100%', height: '400px' }}></div>;
+    return <div ref={containerRef} style={{ width, height }}></div>;
 };
 
 export default memo(AreaChart);
