@@ -1,11 +1,9 @@
-export interface IChartData {
+export interface IDataPieChart  {
     date: string;
-    areaName: string;
-    areaCode: string;
-    confirmedRate: number;
-    latestBy: number;
-    confirmed: number;
-    deathNew: number;
-    death: number;
     deathRate: number;
+}
+
+export interface IdataAreaChart {
+    date: string;
+    confirmedRate: number;
 }

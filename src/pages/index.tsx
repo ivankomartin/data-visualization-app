@@ -1,33 +1,51 @@
-import { GetStaticProps } from 'next';
 import React from 'react';
-import { Main } from '@/components/page/homepage/Main';
+import { GetStaticProps } from 'next';
 import Head from 'next/head';
-import { IChartData } from '@/interface/IChartData';
+import { Main } from '@/components/page/homepage/Main';
+import fetchChartData from '@/utils/helper';
+import { IDataPieChart, IdataAreaChart } from '@/interface/IChartData';
 
 export const getStaticProps: GetStaticProps = async () => {
-  const res = await fetch('https://api.coronavirus.data.gov.uk/v1/data');
-  const data = await res.json();
+  const commonFilters = [
+    `areaType=nation`,
+    `areaName=england`
+  ];
+
+  const structureForPieChart = {
+    date: "date",
+    deathRate: "newDeaths28DaysByPublishDate"
+  };
+
+  const structureForAreaChart = {
+    date: "date",
+    confirmedRate: "newCasesByPublishDate"
+  };
+
+  const dataPieChart = await fetchChartData('https://api.coronavirus.data.gov.uk/v1/data', commonFilters, structureForPieChart);
+  const dataAreaChart = await fetchChartData('https://api.coronavirus.data.gov.uk/v1/data', commonFilters, structureForAreaChart);
 
   return {
     props: {
-      data:data.data
+      dataPieChart: dataPieChart.data,
+      dataAreaChart: dataAreaChart.data,
     },
     revalidate: 60,
   };
 };
 
+
 interface HomeProps {
-  data: IChartData[]; 
+  dataPieChart: IDataPieChart[];
+  dataAreaChart: IdataAreaChart[];
 }
 
-const Home: React.FC<HomeProps> = ({ data }) => {
-
+const Home: React.FC<HomeProps> = ({ dataPieChart, dataAreaChart }) => {
   return (
     <div>
       <Head>
         <title>Homepage | Data Visualization App</title>
       </Head>
-      <Main data={data} />
+      <Main dataPieChart={dataPieChart} dataAreaChart={dataAreaChart} />
     </div>
   );
 };

@@ -1,19 +1,16 @@
 import React, { useEffect, useRef, memo, useMemo } from 'react';
 import { Pie } from '@antv/g2plot';
-import { IChartData } from '@/interface/IChartData';
+import { IDataPieChart } from '@/interface/IChartData';
 
 interface IPieChartProps {
-    data: IChartData[];
+    data: IDataPieChart[];
 }
 
 interface IAggregatedData {
     [key: number]: number;
 }
 
-interface IPieData {
-    month: string;
-    deathRate: number;
-}
+const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
 const PieChart: React.FC<IPieChartProps> = ({ data }) => {
     const containerRef = useRef<HTMLDivElement>(null);
@@ -22,8 +19,6 @@ const PieChart: React.FC<IPieChartProps> = ({ data }) => {
         const year = new Date(item.date).getFullYear();
         return year === 2022;
     });
-
-    const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
     const pieData = useMemo(() => {
         const aggregatedData: IAggregatedData = {};
@@ -39,7 +34,7 @@ const PieChart: React.FC<IPieChartProps> = ({ data }) => {
             month: monthNames[parseInt(month)],
             deathRate: Math.round(aggregatedData[parseInt(month)]),
         }));
-    }, [filteredData, monthNames]);
+    }, [filteredData]);
 
     useEffect(() => {
         if (containerRef.current) {

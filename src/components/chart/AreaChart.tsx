@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, memo } from 'react';
 import { Area } from '@antv/g2plot';
-import { IChartData } from '@/interface/IChartData';
+import { IdataAreaChart } from '@/interface/IChartData';
 
 interface IAreaChartProps {
-    data: IChartData[];
+    data: IdataAreaChart[];
 }
 const AreaChart: React.FC<IAreaChartProps> = ({data}) => {
     const containerRef = useRef<HTMLDivElement>(null);

@@ -8,22 +8,23 @@ const { Title } = Typography;
 import dynamic from "next/dynamic";
 import { Layout } from '@/components/layout/layout/Layout';
 import { ChartCard } from '@/components/card/ChartCard';
-import { IChartData } from '@/interface/IChartData';
+import { IdataAreaChart, IDataPieChart } from '@/interface/IChartData';
 import ChartSkeleton from '@/components/common/skeleton/ChartSkeleton';
 
 
 interface IMainProps {
-    data: IChartData[];
+    dataPieChart: IDataPieChart[];
+    dataAreaChart: IdataAreaChart[];
 }
-const AreaChart: FC<IMainProps> = dynamic(() => import('@/components/chart/AreaChart'), {
+const AreaChart: FC<IdataAreaChart[]> = dynamic(() => import('@/components/chart/AreaChart'), {
     ssr: false,
     loading: () => <ChartSkeleton />,
-}) as FC<IMainProps>;
+}) as FC<IdataAreaChart[]>;
 
-const PieChart: FC<IMainProps> = dynamic(() => import('@/components/chart/PieChart'), {
+const PieChart: FC<IDataPieChart[]> = dynamic(() => import('@/components/chart/PieChart'), {
     ssr: false,
     loading: () => <ChartSkeleton />,
-}) as FC<IMainProps>;
+}) as FC<IDataPieChart[]>;
 
 const contentContainer: React.CSSProperties = {
     padding: '0 15px',
@@ -37,7 +38,8 @@ const pageTitle: React.CSSProperties = {
 }
 
 
-export const Main: React.FC<IMainProps> = ({ data }) => {
+export const Main: React.FC<IMainProps> = ({ dataPieChart,
+    dataAreaChart }) => {
     return (
         <Layout>
             <Content style={contentContainer}>
@@ -53,12 +55,12 @@ export const Main: React.FC<IMainProps> = ({ data }) => {
                     <Row gutter={[15, 15]}>
                         <Col xs={24} sm={12}>
                             <ChartCard title='Confirmed Rate Over Time'>
-                                     <AreaChart data={data} />
+                                     <AreaChart data={dataAreaChart} />
                                 </ChartCard>
                         </Col>
                         <Col xs={24} sm={12}>
-                            <ChartCard title='Death Rate by Month for the Year 2022 - Jan / May'>
-                                <PieChart data={data} />
+                            <ChartCard title='Death Rate by Month for the Year 2022'>
+                                <PieChart data={dataPieChart} />
                             </ChartCard>
                         </Col>
                     </Row>
